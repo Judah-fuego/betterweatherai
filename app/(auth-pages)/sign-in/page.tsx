@@ -4,11 +4,19 @@ import { SubmitButton } from "@/components/submit-button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Login({ searchParams }: { searchParams: Message }) {
   return (
-    <form className="flex-1 flex flex-col min-w-64">
-      <h1 className="text-2xl font-medium">Sign in</h1>
+    <div className=" w-[50%] h-screen items-center bg-sky-100">
+      <form className=" m-auto mt-[100px] flex flex-col min-w-64 max-w-64 ">
+      <Image 
+        src='/logo.png' 
+        height={100} 
+        width={100} 
+        alt="betterweatherailogo"
+      />
+      <h1 className="text-2xl font-medium mt-10">Sign in</h1>
       <p className="text-sm text-foreground">
         Don't have an account?{" "}
         <Link className="text-foreground font-medium underline" href="/sign-up">
@@ -39,5 +47,8 @@ export default function Login({ searchParams }: { searchParams: Message }) {
         <FormMessage message={searchParams} />
       </div>
     </form>
+
+    </div>
+    
   );
 }
