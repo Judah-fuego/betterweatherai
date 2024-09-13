@@ -5,18 +5,21 @@ import { createClient } from "@/utils/supabase/server";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
+
 export const signUpAction = async (formData: FormData) => {
   const email = formData.get("email")?.toString();
   const password = formData.get("password")?.toString();
-  const phoneNumber = formData.get('phonenumber')?.toString();
+  const phonenumber = formData.get("phonenumber")?.toString();
   const supabase = createClient();
   const origin = headers().get("origin");
 
-  if (!email || !password || !phoneNumber) {
-    return { error: "Email, password, and phone number are required" };
+  if (!email || !password) {
+    console.error("Email and password are required.");
+    return encodedRedirect("error", "/sign-up", "Email and password are required");
   }
 
-  const { error } = await supabase.auth.signUp({
+  // Attempt sign-up
+  const { error: authError, data: signUpData } = await supabase.auth.signUp({
     email,
     password,
     options: {
@@ -24,18 +27,28 @@ export const signUpAction = async (formData: FormData) => {
     },
   });
 
-  if (error) {
-    console.error(error.code + " " + error.message);
-    return encodedRedirect("error", "/sign-up", error.message);
-  } else {
-    
-    return encodedRedirect(
-      "success",
-      "/sign-up",
-      "Thanks for signing up! Please check your email for a verification link.",
-    );
+  // Handle authentication errors
+  if (authError) {
+    console.error(`Supabase Auth Error: ${authError.code} - ${authError.message}`);
+    console.error(authError);
+    return encodedRedirect("error", "/sign-up", authError.message);
   }
+
+  if (!signUpData.user) {
+    console.error("User is not authenticated.");
+    return encodedRedirect("error", "/sign-up", "Failed to authenticate user after sign-up.");
+  }
+
+
+  // Success message
+  return encodedRedirect(
+    "success",
+    "/sign-in",
+    "Thanks for signing up! Please check your email for a verification link."
+  );
 };
+
+
 
 export const signInAction = async (formData: FormData) => {
   const email = formData.get("email") as string;
@@ -46,6 +59,26 @@ export const signInAction = async (formData: FormData) => {
     email,
     password,
   });
+    
+  const { data: existingUser, error: fetchError } = await supabase
+  .from('profiles')
+  .select('email')
+  .eq('email', email)
+  .single();
+
+
+if (fetchError) {
+  const { data, error: profileError } = await supabase.from('profiles').insert({
+    email: email,
+  });
+  if (profileError) {
+    console.error(profileError.code + " " + profileError.message);
+    return encodedRedirect("error", "/sign-up", profileError.message);
+  }
+}
+
+
+
 
   if (error) {
     return encodedRedirect("error", "/sign-in", error.message);
@@ -130,3 +163,5 @@ export const signOutAction = async () => {
   await supabase.auth.signOut();
   return redirect("/sign-in");
 };
+
+

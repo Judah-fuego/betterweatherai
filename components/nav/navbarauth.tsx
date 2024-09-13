@@ -3,7 +3,6 @@ import Alerts from './elements/alerts'
 import Menu from './elements/menu'
 import Search from './elements/search'
 import MenuOpen from './elements/menu-open'
-import NotAuth from './elements/notAuth'
 
 
 export default function Navbar(){
@@ -14,7 +13,7 @@ export default function Navbar(){
                 <div className='flex flex-row justify-around p-5 '>
                 <Menu/>
                 <Search/>
-                <NotAuth/>
+                <Auth/>
                 </div>
         </nav>
     )

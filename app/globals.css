@@ -2,6 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+      display: none;
+  }
+ /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
+}
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -67,3 +79,53 @@
     @apply bg-background text-foreground;
   }
 }
+
+@keyframes slideRotate {
+  0% {
+    transform: translateX(-12%) ;
+  }
+  50% {
+    transform: translateX(0%) ;
+  }
+  100% {
+    transform: translateX(-12%) ;
+  }
+}
+
+.ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.6);
+  transform: scale(0);
+  animation: ripple-animation 0.6s linear;
+  pointer-events: none;
+}
+@keyframes ripple-animation {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+.animate-slide-rotate {
+  animation: slideRotate 25s infinite;/* 5s duration, infinite looping */
+}
+
+.primary-color{
+  color: #4682A9;
+}
+
+.bg-primary-color{
+  background-color: #4682A9;
+}
+
+.border-primary-color{
+  border-color: #4682A9;
+}
+

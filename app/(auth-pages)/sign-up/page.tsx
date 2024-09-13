@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import Image from 'next/image';
+
 export default function Signup({ searchParams }: { searchParams: Message }) {
   if ("message" in searchParams) {
     return (
@@ -23,7 +24,7 @@ export default function Signup({ searchParams }: { searchParams: Message }) {
         src='/logo.png' 
         height={100} 
         width={100} 
-        alt="betterweatherailogo"
+        alt="better weather ai logo"
       />
         <h1 className="text-2xl font-medium mt-10">Sign up</h1>
         <p className="text-sm text text-foreground">
@@ -34,9 +35,14 @@ export default function Signup({ searchParams }: { searchParams: Message }) {
         </p>
         <div className="flex flex-col gap-2 [&>input]:mb-3 mt-8">
           <Label htmlFor="email">Email</Label>
-          <Input name="email" placeholder="you@example.com" required />
+          <Input 
+            id="password"
+            name="email" 
+            placeholder="you@example.com" 
+            required />
           <Label htmlFor="password">Password</Label>
           <Input
+            id="password"
             type="password"
             name="password"
             placeholder="Your password"
@@ -48,7 +54,8 @@ export default function Signup({ searchParams }: { searchParams: Message }) {
             type="text"
             name="phonenumber" 
             placeholder="562*******"
-            minLength={10} 
+            minLength={10}
+            maxLength={10} 
             required
           />
           <SubmitButton formAction={signUpAction} pendingText="Signing up...">

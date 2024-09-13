@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { createClient } from "@/utils/supabase/client";
 
 import {useRouter} from 'next/navigation';
+import AvatarSkeleton from "@/components/skeletons/avatar";
 
 
 export default function Auth() {
@@ -26,6 +27,7 @@ export default function Auth() {
                 setProfileImage(null);
                 setUserName(null);
             }
+                 
         };
         
         checkAuthStatus();
@@ -48,9 +50,9 @@ export default function Auth() {
       };
       
 
-    return(
+    if(isAuthenticated){ 
+      return (
         <div className="flex items-center gap-4">
-        {isAuthenticated ? (
           <div className="flex items-center gap-2">
             <Image
               src={profileImage || ''} // Fallback to a default profile image if none exists
@@ -61,15 +63,14 @@ export default function Auth() {
               onClick={handleSignOut} // Clicking the profile image will sign the user out
             />
           </div>
-        ) : (
-          <button
-            className="bg-slate-600 text-sm text-white px-2 py-2 rounded"
-            onClick={handleSignIn}
-          >
-            Sign In / Sign Up
-          </button>
-        )}
-      </div>
+
+        </div>
+      )
+  } else {
+    return(
+      <>
+        <AvatarSkeleton />
+      </>
     )
+  }
 }
-    

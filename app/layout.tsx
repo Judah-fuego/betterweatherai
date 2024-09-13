@@ -1,5 +1,7 @@
 import { Instrument_Sans } from 'next/font/google'
+import {SpeedInsights} from '@vercel/speed-insights/next'
 import "./globals.css";
+
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -23,10 +25,11 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/logo.svg" sizes="any" />
       </head>
-      <body className="bg-background text-foreground">
-        
+      <body className="bg-background text-foreground min-w-[660px]">
         {children}
+        <SpeedInsights />
       </body>
+
     </html>
   );
 }

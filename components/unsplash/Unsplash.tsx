@@ -67,7 +67,14 @@ export const Unsplash = () => {
         </>
         
       ) : (
-        <p>Loading...</p>// Loading state while the image is being fetched
+        // Loading state while the image is being fetched
+        <div className='w-full h-full bg-white flex items-center justify-center'>
+        <Image 
+        src='loader_square.svg'
+        width={100}
+        height={100}
+        alt='loader'/>
+        </div>
       )}
       {}
     </div>

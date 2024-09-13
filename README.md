@@ -1,4 +1,4 @@
-<img src='/public/logo.png' alt='logo' width='100px'>
+<img src='/public/full-logo.png' alt='logo' width='100px'>
 
 # Better Weather AI 
 A better weather app for the modern age.
