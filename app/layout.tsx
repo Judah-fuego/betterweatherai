@@ -1,5 +1,7 @@
 import { Instrument_Sans } from 'next/font/google'
 import {SpeedInsights} from '@vercel/speed-insights/next'
+import { Analytics } from '@vercel/analytics/react';
+
 import "./globals.css";
 
 
@@ -28,6 +30,7 @@ export default function RootLayout({
       <body className="bg-background text-foreground min-w-[660px]">
         {children}
         <SpeedInsights />
+        <Analytics />
       </body>
 
     </html>
