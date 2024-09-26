@@ -5,6 +5,8 @@ import { useEffect, useState } from "react"
 // Define TypeScript interface for Satellite
 interface Satellite {
     name: string
+    line1: string
+    satelliteId: string
     // Add other relevant fields if necessary
 }
 

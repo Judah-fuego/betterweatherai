@@ -17,11 +17,11 @@ interface State {
 }
 
 // Main functional component
-export default function CountryPage({ params }: { params: { name: string } }) {
+export default function CountryPage({ params }: { params: { country: string } }) {
   const [country, setCountry] = useState<Country | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [search, setSearch] = useState<string>("")
-  const [states, setStates] = useState<[]>([])
+  const [states, setStates] = useState<State[]>([]); // Explicitly type the states array
   const [loading, setLoading] = useState<boolean>(true)
 
   const router = useRouter();
@@ -97,7 +97,7 @@ export default function CountryPage({ params }: { params: { name: string } }) {
         </div>
                 
       </div>
-      <Finder params={{ country: country.name, region: params.region }} />
+      <Finder params={{ country: country.name, region: params.country }} />
 
         <ul className='gap-4 flex flex-row  flex-wrap'>
                 {filteredStates.map((state, index) => (

@@ -22,7 +22,7 @@ export default function About(){
                     />
                 </div>
                 <div className='flex flex-col gap-2 w-[70%] p-8'>
-                   <div className=' '>Mission -></div>
+                   <div className=' '>Mission ---</div>
                    <text className='h-full  '>Provide a <span className='primary-color'>Better</span> experience to consumers <br/>looking for <span className='primary-color'>Weather</span> around the <span className='bg-green-900 p-[2px] text-white rounded-md'>world</span> </text>
                 </div>
             </div>
