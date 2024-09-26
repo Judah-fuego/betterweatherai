@@ -1,4 +1,3 @@
-
 import Image from "next/image";
 import { redirect } from 'next/navigation'
 import Link from "next/link";
@@ -20,12 +19,11 @@ export default async function WeatherWidget({
   const Current = await getCurrent(`${city} + ${region}`);
   const Forecast = await getForecast(`${city} + ${region}`);
 
-  if(!Current || !Forecast){
-    redirect('/');
+  if (!Current) {
+    return <div>No data available</div>;
   }
 
   const localTime = Current.location.localtime;
- 
 
 // Convert the string to a Date object
 
@@ -64,8 +62,6 @@ const [datePart, timePart] = localTime.split(" ");
 
 // Further split the date part by hyphens
 var [year, month, day] = datePart.split("-");
-
-
 
 month = monthNames[parseInt(month) - 1 ];
 const formattedDate = `${month} ${day}${getOrdinalSuffix(day)}`;

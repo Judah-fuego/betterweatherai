@@ -10,52 +10,50 @@ const hour = 60 * 60
 
 export async function getForecast(location: string) {
     try {
-      // Fetch weather data from the API
-      const response = await fetch(`${BaseUrl}${Forecast}?key=${API_KEY}&q=${location}&aqi=yes&alerts=yes&days=3`, {cache: "no-store"});
+      const url = `${BaseUrl}${Forecast}?key=${API_KEY}&q=${location}&aqi=yes&alerts=yes&days=3`;
+      console.log('Fetching forecast data from URL:', url); // Log the request URL
+
+      const response = await fetch(url, {cache: "no-store"});
       
-      // Check if the response is successful (status code 200-299)
       if (!response.ok) {
         throw new Error(`API error: ${response.status} ${response.statusText}`);
       }
   
-      // Attempt to parse the response JSON data
       const data = await response.json();
   
-      // Check if data is valid and complete
       if (!data || Object.keys(data).length === 0) {
         throw new Error('Empty or incomplete JSON response from the API.');
       }
   
-      return data; // Return the parsed JSON data
+      return data;
   
     } catch (error) {
       console.error('Error fetching weather data:', error);
-      return null; // Return null or handle error as needed
+      return null;
     }
   }
 
-  export async function getCurrent(location: string) {
+export async function getCurrent(location: string) {
     try {
-      // Fetch weather data from the API
-      const response = await fetch(`${BaseUrl}${Current}?key=${API_KEY}&q=${location}&aqi=yes`, {cache: "no-store"});
+      const url = `${BaseUrl}${Current}?key=${API_KEY}&q=${location}&aqi=yes`;
+      console.log('Fetching current weather data from URL:', url); // Log the request URL
+
+      const response = await fetch(url, {cache: "no-store"});
       
-      // Check if the response is successful (status code 200-299)
       if (!response.ok) {
         throw new Error(`API error: ${response.status} ${response.statusText}`);
       }
   
-      // Attempt to parse the response JSON data
       const data = await response.json();
   
-      // Check if data is valid and complete
       if (!data || Object.keys(data).length === 0) {
         throw new Error('Empty or incomplete JSON response from the API.');
       }
   
-      return data; // Return the parsed JSON data
+      return data;
   
     } catch (error) {
       console.error('Error fetching weather data:', error);
-      return null; // Return null or handle error as needed
+      return null;
     }
   }
