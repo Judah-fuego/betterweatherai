@@ -28,12 +28,12 @@ export function getWeatherIcon(weatherCondition: string){
                 return "/weather_icons/animated/snowy-3.svg"
             case "Moderate or heavy snow showers":
                 return "/weather_icons/animated/snowy-6.svg"
-            case "Clear ":
+            case "Clear " || "Clear" || "clear " || "Clear night":
                 return "/weather_icons/animated/night.svg"
             case "Sunny":
                 return "/weather_icons/animated/day.svg"
             default:
-                return ""
+                return "/weather_icons/animated/night.svg"
         }
     
 }

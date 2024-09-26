@@ -5,7 +5,6 @@ import { createClient } from "@/utils/supabase/server";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
-
 export const signUpAction = async (formData: FormData) => {
   const email = formData.get("email")?.toString();
   const password = formData.get("password")?.toString();
@@ -162,6 +161,55 @@ export const signOutAction = async () => {
   const supabase = createClient();
   await supabase.auth.signOut();
   return redirect("/sign-in");
+};
+
+
+export const getHome = async () => {
+  const supabase = createClient();
+  const {data} = await supabase.auth.getSession();
+  if(data.session){
+    const {data: {user}, error: userError} = await supabase.auth.getUser();
+
+        if (userError) {
+            console.error("Error fetching user:", userError.message);
+    
+            return;
+          }        
+        if(user){
+            const { error: homeError, data: homeData } = await supabase
+            .from('profiles')
+            .select('home')
+            .eq('email', user.email ?? '') // Use eq instead of ilike and provide a fallback empty string
+            .single();
+
+            if (homeError) {
+                console.error("Error fetching profile:", homeError);
+                console.error("Supabase Response:", homeData);
+                
+            }
+          if(homeData && homeData.home !== " "){
+            return homeData.home;
+          } else{
+            return "Los Angeles, California"
+          }
+        }
+  } else {
+    return "Los Angeles, California";
+  }
+}
+
+
+export const contactUsFormSubmit = async (formData: FormData) => {
+  const name = formData.get('name')?.toString();
+  const email = formData.get('email')?.toString();
+  const phone = formData.get('phone')?.toString();
+  const message = formData.get('message')?.toString();
+
+  // Here you can handle the form data, e.g., save it to a database, send an email, etc.
+  console.log("Form Submitted:", { name, email, phone, message });
+
+  // Optionally, you can redirect or return a response
+  return { success: true };
 };
 
 

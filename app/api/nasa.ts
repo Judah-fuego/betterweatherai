@@ -1,15 +1,14 @@
 //  Wait for it 
-
 const API_KEY = process.env.NEXT_PUBLIC_NASA_API_KEY
 
 export async function getNasaImageOfTheDay() {
     try {
-      const response = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${API_KEY}`, { cache: 'force-cache' });
-      const data = await response.json();
-      return data;
+        const response = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${API_KEY}`);
+        const data = await response.json();
+        return data;
     } catch (error) {
-      console.error('Error fetching NASA Image of the Day:', error);
-      throw error;
+        console.error('Error fetching NASA Image of the Day:', error);
+        throw error;
     }
   }
   
@@ -37,7 +36,7 @@ export async function getNasaImageOfTheDay() {
   
   export async function getNasaTechTransfer() {
     try {
-      const response = await fetch(`https://api.nasa.gov/techtransfer/software?weatherapi_key=${API_KEY}`);
+      const response = await fetch(`http://technology.nasa.gov/api/query/software/propulsion`);
       const data = await response.json();
       return data;
     } catch (error) {
@@ -48,7 +47,7 @@ export async function getNasaImageOfTheDay() {
 
   export async function getNasaTLEAPI(){
     try{
-        const response = await fetch(`http://tle.ivanstanojevic.me/api/tle`)
+        const response = await fetch(`https://tle.ivanstanojevic.me/api/tle`, {cache: 'force-cache'})
         const data = await response.json()
         return data
     }catch(error){

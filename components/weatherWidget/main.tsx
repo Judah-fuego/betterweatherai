@@ -1,24 +1,34 @@
 
-
 import Image from "next/image";
+import { redirect } from 'next/navigation'
+
 import Link from "next/link";
 import MapWeatherCard from "./mapweathercard";
 import MainInfoCard from "./mainInfoCard";
 import { getCurrent, getForecast } from "@/app/api/weatherapi";
 import { Favorites } from "./favorites";
+import Home from "./home";
 
 
-export default async function WeatherWidget() {
+export default async function WeatherWidget({ 
+  city = '', 
+  region = '' 
+}: { 
+  city?: string; 
+  region?: string;
+}) {
+  
+  const Current = await getCurrent(`${city} + ${region}`);
+  const Forecast = await getForecast(`${city} + ${region}`);
 
-const Current = await getCurrent("Los Angeles")
-const Forecast = await getForecast("Los Angeles")
-const localTime = Date.now()
+  if(!Current || !Forecast){
+    redirect('/');
+  }
 
-
-;
+  const localTime = Current.location.localtime;
+ 
 
 // Convert the string to a Date object
-const dt = new Date(localTime);
 
 // Helper function to add ordinal suffixes (st, nd, rd, th)
 function getOrdinalSuffix(day: number): string {
@@ -50,12 +60,19 @@ const monthNames = [
   "November",
   "December",
 ];
-const day = dt.getDate();
-const month = monthNames[dt.getMonth()];
+
+const [datePart, timePart] = localTime.split(" ");
+
+// Further split the date part by hyphens
+var [year, month, day] = datePart.split("-");
+
+
+
+month = monthNames[parseInt(month) - 1 ];
 const formattedDate = `${month} ${day}${getOrdinalSuffix(day)}`;
 
 // Format the time as "11:25"
-const formattedTime = dt.toTimeString().slice(0, 5); // Extracts the time in HH:
+
 
 
 if (!Current) {
@@ -64,25 +81,25 @@ if (!Current) {
     
     return (
         
-        <div className=" p-3 w-[600px] h-[500px] border-2 border-gray-300 rounded-lg">
+        <div className=" p-3 w-[600px] h-[500px] border-2 border-gray-300 rounded-lg ">
           <div className="">
             <div className=" p-2 flex flex-row justify-between">
                 <div>
                     <h1 className="text-lg font-bold">
-                    {Current.location.name}, {Current.location.region}
+                    {Current.location.name}, {Current.location.region === Current.location.name ? Current.location.country : Current.location.region}{Current.location.name.length + Current.location.region.length + Current.location.country.length < 50 && Current.location.region !== Current.location.name && Current.location.region.toLocaleLowerCase() != Current.location.country.toLocaleLowerCase() ? ", " + Current.location.country : ""}
                     </h1>
-                    <span className="text-sm text-gray-500">{formattedDate}, {formattedTime}</span>
+                    <span className="text-sm text-gray-500">{formattedDate}, {timePart}</span>
                 </div>
-                <div className=" flex flex-col">
-                <Favorites city={Current.location.name} region={Current.location.region} />
-                <Link href="/sign-in"><Image src='/share.svg' width={20} height={20} alt='share' className="cursor-pointer" /></Link>
-                </div>
+                <div className="flex flex-row justify-between w-[90px] items-start">
+                    <Home params={{city: city, region:region}}/>
+                    <Favorites city={Current.location.name} region={Current.location.region} />
+                    <Link href="/sign-in"><Image src='/share.svg' width={20} height={20} alt='share' className="cursor-pointer" /></Link>
+                  </div>
                 
             </div>
             {/* Weatherheader */}
-                <MainInfoCard />
-
-                <MapWeatherCard data={Forecast} />
+                <MainInfoCard params={{city: city, region: region}} />
+                <MapWeatherCard data={Forecast}/>
             </div>
         </div>
     )

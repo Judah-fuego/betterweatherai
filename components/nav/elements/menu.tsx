@@ -14,12 +14,12 @@ export default function Menu() {
 
     return(
     <div className="flex flex-row items-center gap-1 ml-11">
-            <Image 
+            <a href='/'><Image 
             src="/logo/full-logo.png" 
             height={70}
             width={70}
             alt="Logo navbar"
-            className="cursor-pointer rounded-sm"/>
+            className="cursor-pointer rounded-sm"/></a>
       <div className="pt-2 relative">
         <div>
           <motion.button

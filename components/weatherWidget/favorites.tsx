@@ -29,6 +29,8 @@ export const Favorites: React.FC<FavoritesProps> = ({ city, region }) => {
     checkAuth();
   }, []);
 
+
+
   const loadFavorites = async () => {
     // Fetch the current authenticated user
     const { data: { user }, error: userError } = await supabase.auth.getUser();
@@ -86,7 +88,7 @@ console.log("Profile:", profile);
     if (isFavorite) {
       // Remove from favorites
       updatedFavorites = favorites.filter(fav => fav !== cityRegion);
-      toast.success("Removed from favorites");
+      toast.error("Removed from favorites");
     } else {
       // Add to favorites
       updatedFavorites = [...favorites, cityRegion];
@@ -121,10 +123,10 @@ console.log("Profile:", profile);
         width={20}
         height={20}
         alt="Favorites"
-        className="cursor-pointer mb-1"
+        className="cursor-pointer"
         onClick={setFavorite}
       />
-      <Toaster />
+      <Toaster richColors/>
     </>
   );
 };

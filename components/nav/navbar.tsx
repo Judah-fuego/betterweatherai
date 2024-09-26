@@ -14,7 +14,7 @@ export default function Navbar(){
                 <div className='flex flex-row justify-around p-5 '>
                 <Menu/>
                 <Search/>
-                <NotAuth/>
+                <Auth/>
                 </div>
         </nav>
     )

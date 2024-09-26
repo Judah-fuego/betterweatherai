@@ -5,6 +5,10 @@ const nextConfig = {reactStrictMode: true,
         {
           protocol: 'https',
           hostname: 'images.unsplash.com'
+        },
+        {
+          protocol: 'https',
+          hostname: 'apod.nasa.gov'
         }
       ]
     },

@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import Image from 'next/image';
 import { createClient } from "@/utils/supabase/client";
-
 import {useRouter} from 'next/navigation';
 import AvatarSkeleton from "@/components/skeletons/avatar";
 
@@ -11,6 +10,7 @@ export default function Auth() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [profileImage, setProfileImage] = useState<string | null>(null);
     const [userName, setUserName] = useState<string | null>(null)
+    const [loading, setLoading] = useState(true)
     const router = useRouter();
 
     const supabase = createClient();
@@ -31,7 +31,7 @@ export default function Auth() {
         };
         
         checkAuthStatus();
-    }
+      }
     )
     const handleSignIn = () => {
         router.push('/sign-in'); // Redirect to sign-in page
@@ -48,6 +48,12 @@ export default function Auth() {
           router.push('/sign-in'); // Redirect to sign-in page after sign out
         }
       };
+
+    if(loading){
+      <>
+      <AvatarSkeleton />
+    </>
+    }
       
 
     if(isAuthenticated){ 
@@ -63,14 +69,12 @@ export default function Auth() {
               onClick={handleSignOut} // Clicking the profile image will sign the user out
             />
           </div>
-
         </div>
       )
   } else {
     return(
-      <>
-        <AvatarSkeleton />
-      </>
-    )
+    <button className="mt-2 bg-slate-600 text-sm text-white rounded px-2 h-10 hover:bg-slate-500" onClick={handleSignIn}>
+            Sign In / Sign Up
+    </button>)
   }
 }

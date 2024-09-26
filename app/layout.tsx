@@ -3,6 +3,7 @@ import {SpeedInsights} from '@vercel/speed-insights/next'
 import { Analytics } from '@vercel/analytics/react';
 
 import "./globals.css";
+import Navbar from '@/components/nav/navbar';
 
 
 const defaultUrl = process.env.VERCEL_URL
@@ -32,7 +33,6 @@ export default function RootLayout({
         <SpeedInsights />
         <Analytics />
       </body>
-
     </html>
   );
 }

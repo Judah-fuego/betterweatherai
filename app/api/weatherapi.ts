@@ -11,9 +11,7 @@ const hour = 60 * 60
 export async function getForecast(location: string) {
     try {
       // Fetch weather data from the API
-      const response = await fetch(`${BaseUrl}${Forecast}?key=${API_KEY}&q=${location}&aqi=yes&alerts=yes&days=3`, {
-        next: { revalidate: hour }
-      });
+      const response = await fetch(`${BaseUrl}${Forecast}?key=${API_KEY}&q=${location}&aqi=yes&alerts=yes&days=3`, {cache: "no-store"});
       
       // Check if the response is successful (status code 200-299)
       if (!response.ok) {
@@ -39,9 +37,7 @@ export async function getForecast(location: string) {
   export async function getCurrent(location: string) {
     try {
       // Fetch weather data from the API
-      const response = await fetch(`${BaseUrl}${Current}?key=${API_KEY}&q=${location}&aqi=yes`, {
-        next: { revalidate: 1 }
-      });
+      const response = await fetch(`${BaseUrl}${Current}?key=${API_KEY}&q=${location}&aqi=yes`, {cache: "no-store"});
       
       // Check if the response is successful (status code 200-299)
       if (!response.ok) {
